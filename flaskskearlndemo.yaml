@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flaskskearlndemo
+spec:
+  selector:
+    matchLabels:
+      run: flaskskearlndemo
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        run: flaskskearlndemo
+    spec:
+      containers:
+      - name: flaskskearlndemo
+        image: public.ecr.aws/v2o3x6u2/udamicroservice
+        ports:
+        - containerPort: 80
+        resources:
+          limits:
+            cpu: 500m
+          requests:
+            cpu: 200m
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: flaskskearlndemo
+  labels:
+    run: flaskskearlndemo
+spec:
+  ports:
+  - port: 80
+  selector:
+    run: flaskskearlndemo
